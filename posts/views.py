@@ -7,7 +7,7 @@ from .forms import BlogPostForm
 def get_posts(request):
     """ Create a view that will reuten a list of posts that where published pior to now and render them to a template called 'blogposts.html'"""
     
-    posts = Post.object.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     return render(request, 'blogposts.html', {'posts': posts})
     
 def post_detail(request, pk):
@@ -15,7 +15,7 @@ def post_detail(request, pk):
         or return 404 if not found
     """
     post= get_object_or_404(Post, pk=pk)
-    post.view += 1
+    post.views += 1
     post.save()
     return render(request, 'postdetail.html', {'post':post})
     
